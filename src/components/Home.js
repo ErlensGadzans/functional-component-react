@@ -1,6 +1,6 @@
 import React from "react";
 import Book from "../components/Book";
-import { Col } from "react-bootstrap";
+import { Col, Container } from "react-bootstrap";
 import { useState, useCallback, useEffect } from "react";
 
 const categories = ["scifi", "romance", "horror", "history", "fantasy"];
@@ -31,9 +31,11 @@ export default function Home() {
   console.log(bookList); // false
 
   return (
-    <Col>
-      {bookList &&
-        bookList.map((book, index) => <Book book={book} key={index} />)}
-    </Col>
+    <Container>
+      <Col>
+        {bookList &&
+          bookList.map((book, key) => <Book book={book} key={key} />)}
+      </Col>
+    </Container>
   );
 }
