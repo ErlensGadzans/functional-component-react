@@ -15,15 +15,18 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 const categories = ["scifi", "romance", "horror", "history", "fantasy"];
 const booksUrl = "https://strive-bookstore.herokuapp.com/books";
+const limits = [10, 20, 30];
 
 export default function Home() {
   const [bookList, setBooklist] = useState([]);
-
   const [category, setCategory] = useState(categories[0]);
+  const [limit, setLimit] = useState(limits[0]);
 
   const getbooks = useCallback(async () => {
     try {
-      const response = await fetch(booksUrl + `?category=${category}`);
+      const response = await fetch(
+        booksUrl + `?category=${category}` + `&limit=${limit}`
+      );
       const { data, numberOfItems } = await response.json();
 
       setBooklist(data);
@@ -32,11 +35,11 @@ export default function Home() {
       console.log(error);
       //   next(error);
     }
-  }, [category]);
+  }, [category, limit]);
 
   useEffect(() => {
     getbooks();
-  }, [getbooks, category]);
+  }, [getbooks, category, limit]);
 
   console.log(bookList); // false
 
@@ -53,6 +56,13 @@ export default function Home() {
               {categories.map((cat) => (
                 <NavDropdown.Item onClick={() => setCategory(cat)}>
                   {cat}
+                </NavDropdown.Item>
+              ))}
+            </NavDropdown>
+            <NavDropdown title={limit} id="basic-nav-dropdown">
+              {limits.map((lim) => (
+                <NavDropdown.Item onClick={() => setLimit(lim)}>
+                  {lim}
                 </NavDropdown.Item>
               ))}
             </NavDropdown>
